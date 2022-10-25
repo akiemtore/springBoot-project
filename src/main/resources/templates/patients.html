@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="template1"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" type="text/css" href="/webjars/bootstrap/5.2.1/css/bootstrap.min.css">
+</head>
+<body>
+
+<div layout:fragment="content1">
+<div class="container mt-5">
+<div class="card">
+    <div class="card-header ">
+        <div class="row">
+            <div class="col-sm-9">
+                <h4 class="m-2 font-weight-bold " style="color:#946826;">Patients &nbsp; </h4>
+            </div>
+        </div>
+    </div>
+
+    <div class="card-body">
+
+        <form method="get" th:action="@{/}" >
+            <div class="mt-5">
+                <label >Mot cle</label>
+                <input type="text" name="motCle" th:value="${motCle}">
+                <button class="btn btn-warning">Chercher</button>
+            </div>
+        </form>
+<br>
+        <div class="table-responsive">
+            <table class="table">
+                <thead>
+                <tr style="color:#946826;">
+                    <th>ID</th>  <th>Nom</th>  <th>Date de Naissance</th>  <th>Malade?</th><th>Action</th>
+
+                </tr>
+                </thead>
+                <tbody id="content">
+
+                <tr th:each="p:${pagePatients.content}">
+                    <td th:text="${p.id}">  </td>
+                    <td th:text="${p.nom}">  </td>
+                    <td th:text="${p.date_naissance}">  </td>
+                    <td th:text="${p.malade}">
+                    <td sec:authorize="hasAuthority('ADMIN')" > <a onclick="javascript:return confirm('Etes vous sur?')" class="btn btn-danger" th:href="@{delete(id=${p.id},page=${currentPage} , size=${size} ,motCle=${motCle})}">Supprimer</a>
+                         <a class="btn btn-info"  th:href="@{modifierPatient(id=${p.id },page=${currentPage}  ,motCle=${motCle})}">Editer</a>
+                      </td>
+                </tr>
+
+                </tbody>
+            </table>
+
+            <u1 class="nav nav-pills" >
+                <li th:each="pages,status:${pages}">
+                    <a th:class="${status.index==currentPage?'btn btn-primary':'btn'}"  th:href="@{patients(page=${status.index} , size=${size} ,motCle=${motCle})}" th:text="${status.index}"></a>
+                </li>
+
+            </u1>
+
+        </div>
+    </div>
+</div>
+</div>
+
+</div>
+</body>
+</html>
