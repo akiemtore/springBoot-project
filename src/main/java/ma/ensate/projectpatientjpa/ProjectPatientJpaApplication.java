@@ -23,7 +23,7 @@ public class ProjectPatientJpaApplication  {
 
         SpringApplication.run(ProjectPatientJpaApplication.class, args);
     }
-            //@Bean
+            @Bean
        CommandLineRunner start(securityService securityService ){
 
             return args -> {
